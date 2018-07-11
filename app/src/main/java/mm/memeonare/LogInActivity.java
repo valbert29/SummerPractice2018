@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,15 +19,12 @@ public class LogInActivity extends AppCompatActivity {
     private String log;
     private EditText eLog;
     private Button bLog;
-    private TextView sLog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         bLog = findViewById(R.id.bLogin);
         eLog = findViewById(R.id.nickName);
-        sLog = findViewById(R.id.sLog);
         bLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,7 +42,6 @@ public class LogInActivity extends AppCompatActivity {
                     User.setNickName(log);
                     Toast toast = Toast.makeText(getApplicationContext(), "WOW IT'S WORKING", Toast.LENGTH_LONG);
                     toast.show();
-                    sLog.setText(log);
                     Intent intent = new Intent(LogInActivity.this, MenuActivity.class);
                     startActivity(intent);
                     finish();

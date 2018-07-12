@@ -4,59 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3f51b5"
+    android:background="@drawable/fon"
     tools:context=".GameActivity">
 
     <ImageView
         android:id="@+id/mem"
         android:layout_width="255dp"
         android:layout_height="171dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="112dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="116dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/star_big_on" />
+        app:srcCompat="@drawable/natalya" />
 
     <Button
         android:id="@+id/button1"
-        android:layout_width="122dp"
-        android:layout_height="wrap_content"
+        android:layout_width="123dp"
+        android:layout_height="48dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="52dp"
         android:text="Button"
+        android:background="@drawable/button1"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="122dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="52dp"
         android:text="Button"
+        android:background="@drawable/button1"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/button4"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="122dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginBottom="56dp"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="52dp"
         android:text="Button"
+        android:background="@drawable/button1"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button4"
         android:layout_width="122dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_marginBottom="56dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginEnd="52dp"
         android:text="Button"
+        android:background="@drawable/button1"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -76,4 +81,17 @@
         android:text="?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="match_parent"
+        android:layout_height="97dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button"
+        android:text="TextView"
+        android:textColor="#FFFFFF"
+        android:textAlignment="center"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/button1"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

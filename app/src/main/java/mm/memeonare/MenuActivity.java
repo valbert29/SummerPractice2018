@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import mm.memeonare.UserData.User;
+import mm.memeonare.DataC.User;
 
 public class MenuActivity extends AppCompatActivity {
     Button startButton;

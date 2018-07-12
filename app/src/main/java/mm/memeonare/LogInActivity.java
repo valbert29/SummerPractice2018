@@ -6,14 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import mm.memeonare.UserData.User;
+import mm.memeonare.DataC.User;
 
 public class LogInActivity extends AppCompatActivity {
     private String log;

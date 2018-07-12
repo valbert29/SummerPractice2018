@@ -11,11 +11,13 @@ public class GameActivity extends AppCompatActivity {
     Button Button1;
     ImageView mem;
     Button backButton;
+    Button bTip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         mem=findViewById(R.id.mem);
+        bTip=findViewById(R.id.bTip);
         backButton=findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

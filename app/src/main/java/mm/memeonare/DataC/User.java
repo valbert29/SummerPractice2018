@@ -1,4 +1,4 @@
-package mm.memeonare.UserData;
+package mm.memeonare.DataC;
 
 public class User {
     private static String nickName;

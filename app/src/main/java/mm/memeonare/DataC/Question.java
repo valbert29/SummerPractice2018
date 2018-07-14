@@ -26,4 +26,9 @@ public class Question {
     public int getcIndex() {
         return cIndex;
     }
+
+    public String getMem() {
+        return mem;
+    }
 }
+

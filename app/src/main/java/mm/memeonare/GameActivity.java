@@ -12,9 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,13 +36,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mem;
     private Button backButton;
     private Button bTip;
-    private TextView question;
-    private ArrayList<Question> questions= new ArrayList<>();
+    private TextView qView;
+    private ArrayList<Question> questions = new ArrayList<>();
+    private int qnum=-1;
 
-
-
-    private int r =0;
-    private int correctButton =2;
+    private int r = 0;
+    private int correctButton = 2;
 
 
     @Override
@@ -45,7 +50,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_game);
 
         getQuestions();
-        question=findViewById(R.id.question);
+        qView = findViewById(R.id.question);
         mem = findViewById(R.id.mem);
         bTip = findViewById(R.id.bTip);
         backButton = findViewById(R.id.backButton);
@@ -69,8 +74,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         bTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Thread(){
-                    public void run(){
+                new Thread() {
+                    public void run() {
                         MediaPlayer mp = MediaPlayer.create(GameActivity.this, R.raw.natalyamp);
                         mp.start();
                     }
@@ -109,25 +114,51 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         int buttonIndex = translateIdToIndex(view.getId());
         if (buttonIndex == correctButton) {
             toast = Toast.makeText(getApplicationContext(), "CORRECT", Toast.LENGTH_SHORT);
-            mem.setImageResource(R.drawable.button1);
-            correctButton= (int)(1+Math.random()*4);
-            question.setText(Integer.toString(r++));
+            nextquestion();
         } else {
             toast = Toast.makeText(getApplicationContext(), "INCORRECT", Toast.LENGTH_SHORT);
         }
         toast.show();
-        mem.setImageResource(R.drawable.natalya);
-
     }
 
-    public void getQuestions(){
+    public void getQuestions() {
         try {
-            Scanner sc = new Scanner(new File("questions.txt"));
-            sc.nextLine();
-        } catch (FileNotFoundException e) {
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(
+                            getAssets().open("questions.csv"))
+                    );
+            String line = bufferedReader.readLine();
+            line = bufferedReader.readLine();
+            while (line != null) {
+                ArrayList<String> answers = new ArrayList<>();
+                String[] strings = line.split(",");
+                answers.add(strings[2]);
+                answers.add(strings[3]);
+                answers.add(strings[4]);
+                answers.add(strings[5]);
+                questions.add(new Question(strings[0], strings[1], answers, Integer.parseInt(strings[6])));
+                line = bufferedReader.readLine();
+            }
+
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
 
+    public void nextquestion(){
+        qnum++;
+        Question question = questions.get(qnum);
+        if(question!=null){
+
+            Picasso.get().load("file:///android_asset/"+question.getMem()+".jpg").into(mem);
+            button1.setText(question.getAnswers().get(0));
+            button2.setText(question.getAnswers().get(1));
+            button3.setText(question.getAnswers().get(2));
+            button4.setText(question.getAnswers().get(3));
+            qView.setText(question.getQuestion());
+            correctButton=question.getcIndex();
+        }
     }
 }

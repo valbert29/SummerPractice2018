@@ -71,6 +71,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         button4 = findViewById(R.id.button4);
         button4.setOnClickListener(this);
         DialogF dialogF = new DialogF();
+        dialogF.setCancelable(false);
         dialogF.show(getSupportFragmentManager(),"dia1");
         bTip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,5 +167,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void callback() {
         nextquestion();
+    }
+
+    @Override
+    public void cancel() {
+        Intent intent = new Intent(GameActivity.this, MenuActivity.class);
+        startActivity(intent);
+        finish();
+
     }
 }

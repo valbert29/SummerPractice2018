@@ -37,8 +37,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private Button backButton;
     private Button bTip;
     private TextView qView;
-    private ArrayList<Question> questions = new ArrayList<>();
-    private int qnum=-1;
+    private ArrayList<ArrayList> questions = new ArrayList<>();
+    private int qnum=0;
 
     private int r = 0;
     private int correctButton = 2;
@@ -48,7 +48,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
+        for(int i =0; i<11;i++) {
+            ArrayList<Question> arrayList = new ArrayList<>();
+            questions.add(arrayList);
+        }
         getQuestions();
         qView = findViewById(R.id.question);
         mem = findViewById(R.id.mem);
@@ -116,12 +119,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         int buttonIndex = translateIdToIndex(view.getId());
         if (buttonIndex == correctButton) {
             toast = Toast.makeText(getApplicationContext(), "CORRECT", Toast.LENGTH_SHORT);
+            if(qnum!=10)
             nextquestion();
+            else finishgame();
         } else {
             toast = Toast.makeText(getApplicationContext(), "INCORRECT", Toast.LENGTH_SHORT);
         }
         toast.show();
     }
+
 
     public void getQuestions() {
         try {
@@ -138,7 +144,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 answers.add(strings[3]);
                 answers.add(strings[4]);
                 answers.add(strings[5]);
-                questions.add(new Question(strings[0], strings[1], answers, Integer.parseInt(strings[6])));
+                questions.get(Integer.parseInt(strings[7])).add(new Question(strings[0], strings[1], answers, Integer.parseInt(strings[6])));
                 line = bufferedReader.readLine();
             }
 
@@ -151,7 +157,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     public void nextquestion(){
         qnum++;
-        Question question = questions.get(qnum);
+        Question question = (Question) questions.get(qnum).get((int) (Math.random()*questions.get(qnum).size()));
         if(question!=null){
 
             Picasso.get().load("file:///android_asset/"+question.getMem()+".jpg").into(mem);
@@ -162,6 +168,11 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             qView.setText(question.getQuestion());
             correctButton=question.getcIndex();
         }
+    }
+
+
+    private void finishgame() {
+        
     }
 
     @Override

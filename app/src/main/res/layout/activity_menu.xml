@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fon"
+    android:background="@drawable/background"
     tools:context=".MenuActivity">
 
     <Button
@@ -16,7 +16,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="92dp"
         android:text="Button"
-        android:background="@drawable/button1"
+        android:background="@drawable/button"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="192dp"
         android:text="Start"
-        android:background="@drawable/button1"
+        android:background="@drawable/button"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -28,7 +28,7 @@ import java.util.Scanner;
 
 import mm.memeonare.DataC.Question;
 
-public class GameActivity extends AppCompatActivity implements View.OnClickListener {
+public class GameActivity extends AppCompatActivity implements View.OnClickListener, MyListener {
     private Button button1;
     private Button button2;
     private Button button3;
@@ -70,7 +70,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         button3.setOnClickListener(this);
         button4 = findViewById(R.id.button4);
         button4.setOnClickListener(this);
-
+        DialogF dialogF = new DialogF();
+        dialogF.show(getSupportFragmentManager(),"dia1");
         bTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -160,5 +161,10 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             qView.setText(question.getQuestion());
             correctButton=question.getcIndex();
         }
+    }
+
+    @Override
+    public void callback() {
+        nextquestion();
     }
 }

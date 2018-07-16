@@ -45,6 +45,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<Button> buttons = new ArrayList<>();
     private int r = 0;
     private int correctButton = 2;
+    private boolean doublechance = false;
 
 
     @Override
@@ -130,9 +131,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             nextquestion();
             else finishgame();
         } else {
-            Toast toast = Toast.makeText(getApplicationContext(), "INCORRECT", Toast.LENGTH_SHORT);
-            toast.show();
-            wronganswer();
+            if(!doublechance) {
+                Toast toast = Toast.makeText(getApplicationContext(), "INCORRECT", Toast.LENGTH_SHORT);
+                toast.show();
+                wronganswer();
+            }else {
+                buttons.get(buttonIndex).setText("");
+                buttons.get(buttonIndex).setClickable(false);
+            }
         }
 
     }

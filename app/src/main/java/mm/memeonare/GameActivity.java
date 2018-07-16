@@ -2,8 +2,7 @@ package mm.memeonare;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.os.SystemClock;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -16,16 +15,10 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import mm.memeonare.DataC.Question;
 
@@ -36,12 +29,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private Button button4;
     private ImageView mem;
     private Button backButton;
-    private Button bTip;
-    private boolean tipPressed = false;
+    private int buttonIndex;
+    private Button b50Tip;
+    private Button b2Tip;
+    private boolean tip50Pressed = false;
     private TextView qView;
     private ArrayList<ArrayList> questions = new ArrayList<>();
-    private int qnum=0;
-    private byte cTip=0;
+    private int qnum = 0;
+    private byte cTip = 0;
     private ArrayList<Button> buttons = new ArrayList<>();
     private int r = 0;
     private int correctButton = 2;
@@ -52,14 +47,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        for(int i =0; i<11;i++) {
+        for (int i = 0; i < 11; i++) {
             ArrayList<Question> arrayList = new ArrayList<>();
             questions.add(arrayList);
         }
         getQuestions();
         qView = findViewById(R.id.question);
         mem = findViewById(R.id.mem);
-        bTip = findViewById(R.id.bTip);
+        b50Tip = findViewById(R.id.b50Tip);
+        b2Tip = findViewById(R.id.b2Tip);
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,12 +79,20 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         buttons.add(button4);
         DialogF dialogF = new DialogF();
         dialogF.setCancelable(false);
-        dialogF.show(getSupportFragmentManager(),"dia1");
-        bTip.setOnClickListener(new View.OnClickListener() {
+        dialogF.show(getSupportFragmentManager(), "dia1");
+        b50Tip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!tipPressed && cTip<3)
-                fiftyFifty();
+                    fiftyFifty();
+            }
+        });
+        b2Tip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    doublechance=true;
+                    Toast toast=Toast.makeText(getApplication(),"DOUBLE CHANCE ACTIVATED",Toast.LENGTH_LONG);
+                    toast.show();
+                    b2Tip.setClickable(false);
             }
         });
     }
@@ -103,46 +107,58 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         switch (id) {
             case R.id.button1:
                 index = 1;
-                button1.setBackground(getDrawable(R.drawable.possiblebutt));
+                // button1.setBackgroundResource(R.drawable.possiblebutt);
                 break;
             case R.id.button2:
-                button2.setBackground(getDrawable(R.drawable.possiblebutt));
+                //button2.setBackgroundResource(R.drawable.possiblebutt);
                 index = 2;
+
                 break;
             case R.id.button3:
-                button3.setBackground(getDrawable(R.drawable.possiblebutt));
+                //button3.setBackgroundResource(R.drawable.possiblebutt);
 
                 index = 3;
                 break;
             case R.id.button4:
-                button4.setBackground(getDrawable(R.drawable.possiblebutt));
                 index = 4;
+                //button4.setBackgroundResource(R.drawable.possiblebutt);
                 break;
         }
+        //ТУТА ТУТА ТУТА ТУТА
+
+        //buttons.get(index-1).setBackgroundResource(R.drawable.possiblebutt);
         return index;
     }
 
     @Override
     public void onClick(View view) {
-        int buttonIndex = translateIdToIndex(view.getId());
-        if (buttonIndex == correctButton) {
-            buttons.get(buttonIndex-1).setBackground(getDrawable(R.drawable.succbutt));
-            if(qnum!=10)
-            nextquestion();
-            else finishgame();
-        } else {
-            if(!doublechance) {
-                Toast toast = Toast.makeText(getApplicationContext(), "INCORRECT", Toast.LENGTH_SHORT);
-                toast.show();
-                wronganswer();
-            }else {
-                buttons.get(buttonIndex).setText("");
-                buttons.get(buttonIndex).setClickable(false);
-            }
-        }
+        buttonIndex = translateIdToIndex(view.getId());
+       /* view.invalidate();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        //ТУТА ТУТА ТУТА ТУТА
+        MyTask myTask = new MyTask();
+        myTask.execute();
+
 
     }
 
+    private void buttonClick() {
+        if (buttonIndex == correctButton) {
+            if (qnum != 10) {
+
+                nextquestion();
+            } else finishgame();
+        } else {
+                Toast toast = Toast.makeText(getApplicationContext(), "INCORRECT", Toast.LENGTH_SHORT);
+                toast.show();
+                wronganswer();
+
+        }
+    }
 
 
     public void getQuestions() {
@@ -150,7 +166,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             BufferedReader bufferedReader = new BufferedReader(
                     new InputStreamReader(
                             getAssets().open("questions.csv"))
-                    );
+            );
             String line = bufferedReader.readLine();
             line = bufferedReader.readLine();
             while (line != null) {
@@ -171,21 +187,23 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public void nextquestion(){
+    public void nextquestion() {
         qnum++;
-        for(Button b: buttons)
-            b.setBackground(getDrawable(R.drawable.butt));
-        tipPressed = false;
-        Question question = (Question) questions.get(qnum).get((int) (Math.random()*questions.get(qnum).size()));
-        if(question!=null){
+        for (Button b : buttons) {
+            b.setBackground(getDrawable(R.drawable.button));
+            b.setClickable(true);
+        }
+        tip50Pressed = false;
+        Question question = (Question) questions.get(qnum).get((int) (Math.random() * questions.get(qnum).size()));
+        if (question != null) {
 
-            Picasso.get().load("file:///android_asset/"+question.getMem()+".jpg").into(mem);
+            Picasso.get().load("file:///android_asset/" + question.getMem() + ".jpg").into(mem);
             button1.setText(question.getAnswers().get(0));
             button2.setText(question.getAnswers().get(1));
             button3.setText(question.getAnswers().get(2));
             button4.setText(question.getAnswers().get(3));
             qView.setText(question.getQuestion());
-            correctButton=question.getcIndex();
+            correctButton = question.getcIndex();
         }
     }
 
@@ -193,23 +211,24 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private void finishgame() {
         cancel();
     }
+
     private void wronganswer() {
         cancel();
     }
 
-
-    private void fiftyFifty(){
-        tipPressed = true;
+    private void fiftyFifty() {
+        b50Tip.setClickable(false);
+        tip50Pressed = true;
         cTip++;
-        byte c =0;
-        byte b=0;
-        while (c!=2) {
+        byte c = 0;
+        byte b = 0;
+        while (c != 2) {
             byte i = (byte) (Math.random() * 4 + 1);
-            if (i != correctButton && i!=b) {
+            if (i != correctButton && i != b) {
                 c++;
-                b=i;
-                buttons.get(i-1).setText("");
-                buttons.get(i-1).setClickable(false);
+                b = i;
+                buttons.get(i - 1).setText("");
+                buttons.get(i - 1).setClickable(false);
 
 
             }
@@ -228,5 +247,67 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
         finish();
 
+    }
+
+    class MyTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            buttons.get(buttonIndex - 1).setBackgroundResource(R.drawable.possiblebutton);
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            if(buttonIndex!=correctButton && doublechance) {
+                doublechance = false;
+                buttons.get(buttonIndex-1).setBackgroundResource(R.drawable.wrongbutton);
+                buttons.get(buttonIndex-1).setClickable(false);
+            }
+            else {
+                MyTask2 myTask2 = new MyTask2();
+                myTask2.execute();
+            }
+
+        }
+    }
+
+    class MyTask2 extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            buttons.get(correctButton - 1).setBackgroundResource(R.drawable.rightbutton);
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            buttonClick();
+
+        }
     }
 }

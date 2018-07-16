@@ -3,6 +3,7 @@ package mm.memeonare;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -36,10 +37,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView mem;
     private Button backButton;
     private Button bTip;
+    private boolean tipPressed = false;
     private TextView qView;
     private ArrayList<ArrayList> questions = new ArrayList<>();
     private int qnum=0;
-
+    private byte cTip=0;
+    private ArrayList<Button> buttons = new ArrayList<>();
     private int r = 0;
     private int correctButton = 2;
 
@@ -73,18 +76,18 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         button3.setOnClickListener(this);
         button4 = findViewById(R.id.button4);
         button4.setOnClickListener(this);
+        buttons.add(button1);
+        buttons.add(button2);
+        buttons.add(button3);
+        buttons.add(button4);
         DialogF dialogF = new DialogF();
         dialogF.setCancelable(false);
         dialogF.show(getSupportFragmentManager(),"dia1");
         bTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Thread() {
-                    public void run() {
-                        MediaPlayer mp = MediaPlayer.create(GameActivity.this, R.raw.natalyamp);
-                        mp.start();
-                    }
-                }.start();
+                if(!tipPressed && cTip<3)
+                fiftyFifty();
             }
         });
     }
@@ -99,14 +102,19 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         switch (id) {
             case R.id.button1:
                 index = 1;
+                button1.setBackground(getDrawable(R.drawable.possiblebutt));
                 break;
             case R.id.button2:
+                button2.setBackground(getDrawable(R.drawable.possiblebutt));
                 index = 2;
                 break;
             case R.id.button3:
+                button3.setBackground(getDrawable(R.drawable.possiblebutt));
+
                 index = 3;
                 break;
             case R.id.button4:
+                button4.setBackground(getDrawable(R.drawable.possiblebutt));
                 index = 4;
                 break;
         }
@@ -115,18 +123,20 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        Toast toast;
         int buttonIndex = translateIdToIndex(view.getId());
         if (buttonIndex == correctButton) {
-            toast = Toast.makeText(getApplicationContext(), "CORRECT", Toast.LENGTH_SHORT);
+            buttons.get(buttonIndex-1).setBackground(getDrawable(R.drawable.succbutt));
             if(qnum!=10)
             nextquestion();
             else finishgame();
         } else {
-            toast = Toast.makeText(getApplicationContext(), "INCORRECT", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getApplicationContext(), "INCORRECT", Toast.LENGTH_SHORT);
+            toast.show();
+            wronganswer();
         }
-        toast.show();
+
     }
+
 
 
     public void getQuestions() {
@@ -157,6 +167,9 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     public void nextquestion(){
         qnum++;
+        for(Button b: buttons)
+            b.setBackground(getDrawable(R.drawable.butt));
+        tipPressed = false;
         Question question = (Question) questions.get(qnum).get((int) (Math.random()*questions.get(qnum).size()));
         if(question!=null){
 
@@ -172,7 +185,30 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void finishgame() {
-        
+        cancel();
+    }
+    private void wronganswer() {
+        cancel();
+    }
+
+
+    private void fiftyFifty(){
+        tipPressed = true;
+        cTip++;
+        byte c =0;
+        byte b=0;
+        while (c!=2) {
+            byte i = (byte) (Math.random() * 4 + 1);
+            if (i != correctButton && i!=b) {
+                c++;
+                b=i;
+                buttons.get(i-1).setText("");
+                buttons.get(i-1).setClickable(false);
+
+
+            }
+        }
+
     }
 
     @Override

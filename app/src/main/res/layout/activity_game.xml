@@ -4,27 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     tools:context=".GameActivity">
 
-    <Button
-        android:id="@+id/b50Tip"
-        android:background="@drawable/fifty"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/b2Tip"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/x2"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/b50Tip" />
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background"
+        android:scaleType="centerCrop"/>
 
     <ImageView
         android:id="@+id/mem"
@@ -92,16 +79,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/bTip"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="50dp"
+        android:id="@+id/b50Tip"
+        android:background="@drawable/fifty"
+        android:layout_width="56dp"
         android:layout_height="50dp"
-        android:text="?"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text=""
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toStartOf="@id/backButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/b2Tip"
+        android:layout_width="56dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/x2"
+        android:text=""
+        app:layout_constraintEnd_toStartOf="@id/b50Tip"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

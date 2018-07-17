@@ -11,7 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 
-public class Congrats extends DialogFragment {
+public class Lose extends DialogFragment {
     MyListener callback;
 
     @NonNull
@@ -19,7 +19,7 @@ public class Congrats extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
         AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
-        adb.setTitle("CONGRATS!!!").setMessage("YOU'RE OFFICIALLY MEMEONARE NOW")
+        adb.setTitle("OOOPS").setMessage("GAME IS OVER FOR YOU BOI")
                 .setPositiveButton("GO TO MENU", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -48,5 +48,3 @@ public class Congrats extends DialogFragment {
         callback = null;
     }
 }
-
-

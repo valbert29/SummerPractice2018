@@ -216,11 +216,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void finishgame() {
-        cancel();
+        Congrats congrats = new Congrats();
+        congrats.setCancelable(false);
+        congrats.show(getSupportFragmentManager(), "Congrats");
     }
 
     private void wronganswer() {
-        cancel();
+        Lose lose = new Lose();
+        lose.setCancelable(false);
+        lose.show(getSupportFragmentManager(), "lose");
     }
 
     private void fiftyFifty() {

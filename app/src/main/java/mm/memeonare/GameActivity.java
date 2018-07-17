@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private Button button3;
     private Button button4;
     private ImageView mem;
+    private TextView level;
     private Button backButton;
     private int buttonIndex;
     private Button b50Tip;
@@ -36,9 +38,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private TextView qView;
     private ArrayList<ArrayList> questions = new ArrayList<>();
     private int qnum = 0;
-    private byte cTip = 0;
     private ArrayList<Button> buttons = new ArrayList<>();
-    private int r = 0;
     private int correctButton = 2;
     private boolean doublechance = false;
 
@@ -52,6 +52,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
             questions.add(arrayList);
         }
         getQuestions();
+        level=findViewById(R.id.level);
         qView = findViewById(R.id.question);
         mem = findViewById(R.id.mem);
         b50Tip = findViewById(R.id.b50Tip);
@@ -133,6 +134,8 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         buttonIndex = translateIdToIndex(view.getId());
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
        /* view.invalidate();
         try {
             Thread.sleep(3000);
@@ -144,10 +147,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         myTask.execute();
 
 
+
     }
 
     private void buttonClick() {
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         if (buttonIndex == correctButton) {
+            doublechance=false;
             if (qnum != 10) {
 
                 nextquestion();
@@ -189,6 +195,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     public void nextquestion() {
         qnum++;
+        level.setText(""+qnum);
         for (Button b : buttons) {
             b.setBackground(getDrawable(R.drawable.button));
             b.setClickable(true);
@@ -219,7 +226,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     private void fiftyFifty() {
         b50Tip.setClickable(false);
         tip50Pressed = true;
-        cTip++;
         byte c = 0;
         byte b = 0;
         while (c != 2) {
@@ -275,6 +281,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
                 doublechance = false;
                 buttons.get(buttonIndex-1).setBackgroundResource(R.drawable.wrongbutton);
                 buttons.get(buttonIndex-1).setClickable(false);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
             else {
                 MyTask2 myTask2 = new MyTask2();
@@ -296,7 +303,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                TimeUnit.SECONDS.sleep(2);
+                TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -307,6 +314,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
             buttonClick();
+
 
         }
     }

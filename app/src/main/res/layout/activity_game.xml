@@ -17,34 +17,42 @@
         android:id="@+id/mem"
         android:layout_width="286dp"
         android:layout_height="210dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="85dp"
+        android:layout_marginTop="72dp"
+        app:layout_constraintBottom_toTopOf="@+id/question"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@null" />
 
     <Button
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:id="@+id/button1"
+        android:textSize="12sp"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/button"
-        android:paddingBottom="5dp"
+        android:text=""
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:paddingBottom="5dp"
         android:id="@+id/button2"
+        android:textSize="12sp"
+
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/button"
         android:text=""
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/button4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,41 +60,46 @@
         app:layout_constraintStart_toEndOf="@+id/button1" />
 
     <Button
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:id="@+id/button3"
+        android:textSize="12sp"
+
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/button"
-        android:paddingBottom="5dp"
         android:text=""
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button4"
-        app:layout_constraintStart_toStartOf="parent" />
+        />
 
     <Button
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:id="@+id/button4"
+        android:textSize="12sp"
+
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/button"
-        android:paddingBottom="5dp"
         android:text=""
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button3" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button3"/>
 
     <Button
         android:id="@+id/backButton"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="10dp"
-
-        android:background="#56ffffff"
         android:text="Back"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -116,17 +129,16 @@
         android:id="@+id/question"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:background="@drawable/button"
         android:gravity="center"
-        android:paddingBottom="10dp"
-        android:paddingEnd="10dp"
+        android:text=""
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/button1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mem" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/level"

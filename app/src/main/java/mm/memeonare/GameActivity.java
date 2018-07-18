@@ -136,9 +136,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         buttonIndex = translateIdToIndex(view.getId());
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        for (Button b : buttons) {
-            b.setEnabled(false);
-        }
        /* view.invalidate();
         try {
             Thread.sleep(3000);
@@ -158,6 +155,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         if (buttonIndex == correctButton) {
             doublechance=false;
             if (qnum != 10) {
+
                 nextquestion();
             } else finishgame();
         } else {
@@ -201,7 +199,6 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         for (Button b : buttons) {
             b.setBackground(getDrawable(R.drawable.button));
             b.setClickable(true);
-            b.setEnabled(true);
         }
         tip50Pressed = false;
         Question question = (Question) questions.get(qnum).get((int) (Math.random() * questions.get(qnum).size()));
@@ -219,11 +216,15 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void finishgame() {
-        cancel();
+        Congrats congrats = new Congrats();
+        congrats.setCancelable(false);
+        congrats.show(getSupportFragmentManager(), "Congrats");
     }
 
     private void wronganswer() {
-        cancel();
+        Lose lose = new Lose();
+        lose.setCancelable(false);
+        lose.show(getSupportFragmentManager(), "lose");
     }
 
     private void fiftyFifty() {

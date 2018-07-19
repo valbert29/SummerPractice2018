@@ -11,6 +11,7 @@ import mm.memeonare.DataC.User;
 
 public class MenuActivity extends AppCompatActivity {
     Button startButton;
+    Button scoresButton;
     TextView sLog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +19,13 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         sLog=findViewById(R.id.sLog);
         sLog.setText(User.getNickName());
+        scoresButton=findViewById(R.id.scoresButton);
+        scoresButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showScores();
+            }
+        });
         startButton=findViewById(R.id.startButton);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,5 +35,10 @@ public class MenuActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+
+    private void showScores(){
+
     }
 }

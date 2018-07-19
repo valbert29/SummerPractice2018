@@ -39,6 +39,8 @@ public class MenuActivity extends AppCompatActivity {
 
 
     private void showScores(){
-
+        Intent intent = new Intent(MenuActivity.this, MenuActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

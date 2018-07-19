@@ -38,8 +38,6 @@ public class LogInActivity extends AppCompatActivity {
                 Matcher matcher = pattern.matcher(log);
                 if (matcher.matches()) {
                     User.setNickName(log);
-                    Toast toast = Toast.makeText(getApplicationContext(), "WOW IT'S WORKING", Toast.LENGTH_LONG);
-                    toast.show();
                     Intent intent = new Intent(LogInActivity.this, MenuActivity.class);
                     startActivity(intent);
                     finish();
